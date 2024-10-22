@@ -1,21 +1,21 @@
 const path = require("path");
 const cloudinary = require("../config/cloudinary.js");
-const UserDocumentModel = require("../models/user.document.model.js");
+const UserDocumentModel = require("../models/user.visa.document.model.js");
 const UserMedicalReportModel = require("../models/user.medical.report.model.js");
 
 exports.CreateVisa = async (req, res) => {
   const { visa_number } = req.body;
   const visa_image = req.file;
 
-  const mimeType = visa_image.mimetype.split("/")[1];
-  const filename = visa_image.filename;
-  const filePath = path.resolve(__dirname, "../uploads", filename);
-
   if (!visa_number || !visa_image) {
     return res
       .status(400)
       .json({ status: "fail", message: "Visa number and image are required" });
   }
+
+  const mimeType = visa_image.mimetype.split("/")[1];
+  const filename = visa_image.filename;
+  const filePath = path.resolve(__dirname, "../uploads", filename);
 
   const uploadResult = await cloudinary.uploader
     .upload(filePath, {
@@ -53,7 +53,6 @@ exports.CreateMedicalReport = async (req, res) => {
   const { visa_number } = req.body;
   const medical_image = req.file;
 
-
   if (!visa_number || !medical_image) {
     return res.status(400).json({
       status: "fail",
@@ -87,6 +86,8 @@ exports.CreateMedicalReport = async (req, res) => {
     });
   } catch (error) {
     console.error("Error processing medical report:", error);
-    res.status(500).json({ status: "fail", message: "Error processing medical report" });
+    res
+      .status(500)
+      .json({ status: "fail", message: "Error processing medical report" });
   }
 };

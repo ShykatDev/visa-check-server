@@ -11,6 +11,6 @@ const userDocumentSchema = mongoose.Schema(
   }
 );
 
-const UserDocumentModel = mongoose.model("UserDocument", userDocumentSchema);
+const UserDocumentModel = mongoose.model("UserVisaDocument", userDocumentSchema);
 
 module.exports = UserDocumentModel;

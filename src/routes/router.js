@@ -5,17 +5,23 @@ const commonController = require("../controllers/common.controller.js");
 const router = express.Router();
 const authRoutes = require("./auth.js");
 const we = require('./we.js');
+const multer = require("multer");
 
-// Test route
-router.get("/app", (req, res) => {
-  res.json({
-    message: "Welcome to the Visa Check Server",
-  });
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./src/uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname.split(" ").join("-") + "-" + Date.now());
+  },
 });
+
+const upload = multer({ storage: storage });
 
 // Jobs routes
 router.get("/jobs", JobsController.GetJobs);
-router.post("/apply/:job_id", commonController.ApplyJob);
+router.post("/apply/:job_id", upload.single("profile_pic"), commonController.ApplyJob);
 
 //Auth routes
 router.use("/", authRoutes);

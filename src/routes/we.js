@@ -3,6 +3,7 @@ const authMiddleware = require("../middleware/authMiddleware.js");
 const multer = require("multer");
 
 const WeController = require("../controllers/we.controller.js");
+const JobController = require("../controllers/job.controller.js");
 
 const router = express.Router();
 
@@ -22,6 +23,7 @@ router.use(authMiddleware);
 
 // "/we/visa" route
 router.post("/visa", upload.single("visa_image"), WeController.CreateVisa);
+router.post("/jobs", JobController.CreateJob);
 
 // "/we/medical_report" route
 router.post(

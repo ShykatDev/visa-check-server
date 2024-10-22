@@ -1,32 +1,16 @@
 const UserModel = require("../models/user.model.js");
 const bcrypt = require("bcryptjs");
-const path = require("path");
-const cloudinary = require("../config/cloudinary.js");
 
 exports.Register = async (req, res) => {
   const { first_name, last_name, email, phone, password } = req.body;
-  const avatar = req.file;
 
   // Checking for empty values
-  if (!first_name || !last_name || !email || !password || !avatar) {
+  if (!first_name || !last_name || !email || !password) {
     return res.status(400).json({
       status: "fail",
       message: "Missing required fields",
     });
   }
-  const mimeType = avatar.mimetype.split("/")[1];
-  const filename = avatar.filename;
-  const filePath = path.resolve(__dirname, "../uploads", filename);
-
-  const uploadResult = await cloudinary.uploader
-    .upload(filePath, {
-      filename_override: filename,
-      folder: "visa_images",
-      format: mimeType,
-    })
-    .catch((error) => {
-      console.log(error);
-    });
 
   try {
     // Check if user already exists
@@ -47,7 +31,6 @@ exports.Register = async (req, res) => {
       email,
       phone,
       password: hashedPassword,
-      avatar: uploadResult.secure_url,
     });
     return res
       .status(201)
