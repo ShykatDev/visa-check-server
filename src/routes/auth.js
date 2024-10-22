@@ -4,9 +4,23 @@ const bcrypt = require("bcryptjs");
 const router = express.Router();
 const UserModel = require("../models/user.model.js");
 const UserController = require("../controllers/user.controller.js");
+const multer = require("multer");
+
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./src/uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname.split(" ").join("-") + "-" + Date.now());
+  },
+});
+
+const upload = multer({ storage: storage });
 
 // Sign-up route
-router.post("/auth/register", UserController.Register);
+router.post("/auth/register", upload.single("avatar"), UserController.Register);
 
 // Sign-in route
 router.post("/auth/token", async (req, res) => {
