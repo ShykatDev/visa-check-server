@@ -6,6 +6,8 @@ const DataSchema = mongoose.Schema(
     description: { type: String, required: true },
     vacancy: { type: Number, required: true },
     hiring_position: { type: String, required: true },
+    is_new: { type: Boolean, required: false },
+    job_id: { type: String, required: true }
   },
   {
     timestamps: true,
