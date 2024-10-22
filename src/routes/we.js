@@ -3,9 +3,22 @@ const authMiddleware = require("../middleware/authMiddleware.js");
 const UserDocumentModel = require("../models/user.document.model.js");
 const uploadImage = require("../utils/uploadImage.js");
 const multer = require("multer");
-const upload = multer();
+const path = require("path");
+const cloudinary = require("../config/cloudinary.js");
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./src/uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname.split(" ").join("-") + "-" + Date.now());
+  },
+});
+ 
+const upload = multer({ storage: storage });
+
 
 // Apply authMiddleware to all routes in this file
 router.use(authMiddleware);
@@ -13,7 +26,14 @@ router.use(authMiddleware);
 // "/we/visa" route
 router.post("/visa", upload.single("visa_image"), async (req, res) => {
   const { visa_number } = req.body;
-  const  visa_image  = req.file;
+  const visa_image = req.file;
+
+  const mimeType = visa_image.mimetype.split("/")[1];
+  const filename = visa_image.filename;
+  const filePath = path.resolve(__dirname, "../uploads", filename);
+
+
+  
 
   if (!visa_number || !visa_image) {
     return res
@@ -21,13 +41,19 @@ router.post("/visa", upload.single("visa_image"), async (req, res) => {
       .json({ status: "fail", message: "Visa number and image are required" });
   }
 
-  try {
-    const imageUrl = await uploadImage(visa_image, "visa_images");
+  const uploadResult = await cloudinary.uploader.upload(filePath, {
+    filename_override: filename,
+    folder: "visa_images",
+    format: mimeType,
+  }).catch(error => {
+    console.log(error);
+  });
 
-    const userDocument = await UserDocumentModel.findOneAndUpdate(
-      { visa_number },
-      { visa_image: imageUrl },
-      { upsert: true, new: true }
+
+  try {
+    const userDocument = await UserDocumentModel.create(
+      { visa_number,  visa_image: uploadResult.secure_url },
+      
     );
 
     res.json({
@@ -55,12 +81,10 @@ router.post(
     const medical_image = req.file;
 
     if (!visa_number || !medical_image) {
-      return res
-        .status(400)
-        .json({
-          status: "fail",
-          message: "Visa number and medical image are required",
-        });
+      return res.status(400).json({
+        status: "fail",
+        message: "Visa number and medical image are required",
+      });
     }
 
     try {
