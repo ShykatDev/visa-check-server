@@ -39,6 +39,7 @@ exports.ApplyJob = async (req, res) => {
     district,
     first_name,
     last_name,
+    visa_id
   } = req.body;
   const { job_id } = req.params;
   const profile_pic = req.file;
@@ -83,6 +84,7 @@ exports.ApplyJob = async (req, res) => {
       first_name,
       last_name,
       job_id,
+      visa_id
     });
     return res.status(201).json({ status: "success" });
   } catch (err) {

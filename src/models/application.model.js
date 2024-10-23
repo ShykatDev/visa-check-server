@@ -10,7 +10,7 @@ const DataSchema = mongoose.Schema(
     phone_number: { type: Number, required: true },
     passport_number: { type: String, required: true },
     job_id: { type: String, required: false, default: null },
-    visa_number: { type: String, required: false, default: null },
+    visa_id: { type: String, required: false, default: null },
   },
   {
     timestamps: true,
