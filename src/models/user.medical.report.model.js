@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userMedicalReportsSchema = mongoose.Schema(
   {
-    visa_number: { type: String, required: true, },
+    passport_number: { type: String, required: true, },
     medical_image: { type: String, default: null },
   },
   {

@@ -20,10 +20,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Sign-up route
-router.post("/auth/register", upload.single("avatar"), UserController.Register);
+router.post("/register", upload.single("avatar"), UserController.Register);
 
 // Sign-in route
-router.post("/auth/token", async (req, res) => {
+router.post("/token", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {

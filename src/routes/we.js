@@ -4,6 +4,7 @@ const multer = require("multer");
 
 const WeController = require("../controllers/we.controller.js");
 const JobController = require("../controllers/job.controller.js");
+const ApplicationController = require("../controllers/application.controller.js");
 
 const router = express.Router();
 
@@ -31,5 +32,8 @@ router.post(
   upload.single("medical_image"),
   WeController.CreateMedicalReport
 );
+
+//Applications route
+router.get("/applications", ApplicationController.GetApplication);
 
 module.exports = router;

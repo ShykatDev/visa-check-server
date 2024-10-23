@@ -1,10 +1,12 @@
 const express = require("express");
 const JobsController = require("../controllers/job.controller.js");
 const commonController = require("../controllers/common.controller.js");
+const MedicalReportsController = require("../controllers/medical_reports.controller.js");
+const VisaController = require("../controllers/visa.controller.js");
 
 const router = express.Router();
 const authRoutes = require("./auth.js");
-const we = require('./we.js');
+const we = require("./we.js");
 const multer = require("multer");
 
 // Multer configuration for file uploads
@@ -21,12 +23,23 @@ const upload = multer({ storage: storage });
 
 // Jobs routes
 router.get("/jobs", JobsController.GetJobs);
-router.post("/apply/:job_id", upload.single("profile_pic"), commonController.ApplyJob);
+router.post(
+  "/apply/:job_id",
+  upload.single("profile_pic"),
+  commonController.ApplyJob
+);
 
 //Auth routes
-router.use("/", authRoutes);
+router.use("/auth", authRoutes);
+
+//Medical Reports
+router.get("/medical_reports", MedicalReportsController.GetApplication);
+
+//Visa routes
+router.get("/visa", VisaController.GetVisa);
+
 
 //Private routes
-router.use('/we', we);
+router.use("/we", we);
 
 module.exports = router;

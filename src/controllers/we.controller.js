@@ -4,13 +4,16 @@ const UserDocumentModel = require("../models/user.visa.document.model.js");
 const UserMedicalReportModel = require("../models/user.medical.report.model.js");
 
 exports.CreateVisa = async (req, res) => {
-  const { visa_number } = req.body;
+  const { passport_number } = req.body;
   const visa_image = req.file;
 
-  if (!visa_number || !visa_image) {
+  if (!passport_number || !visa_image) {
     return res
       .status(400)
-      .json({ status: "fail", message: "Visa number and image are required" });
+      .json({
+        status: "fail",
+        message: "Passport number and image are required",
+      });
   }
 
   const mimeType = visa_image.mimetype.split("/")[1];
@@ -29,7 +32,7 @@ exports.CreateVisa = async (req, res) => {
 
   try {
     const userDocument = await UserDocumentModel.create({
-      visa_number,
+      passport_number,
       visa_image: uploadResult.secure_url,
     });
 
@@ -37,7 +40,7 @@ exports.CreateVisa = async (req, res) => {
       status: "success",
       message: "Visa information saved successfully",
       data: {
-        visa_number: userDocument.visa_number,
+        passport_number: userDocument.passport_number,
         visa_image: userDocument.visa_image,
       },
     });
@@ -50,10 +53,10 @@ exports.CreateVisa = async (req, res) => {
 };
 
 exports.CreateMedicalReport = async (req, res) => {
-  const { visa_number } = req.body;
+  const { passport_number } = req.body;
   const medical_image = req.file;
 
-  if (!visa_number || !medical_image) {
+  if (!passport_number || !medical_image) {
     return res.status(400).json({
       status: "fail",
       message: "Visa number and medical image are required",
@@ -72,7 +75,7 @@ exports.CreateMedicalReport = async (req, res) => {
     });
 
     const userMedicalReport = await UserMedicalReportModel.create({
-      visa_number,
+      passport_number,
       medical_image: uploadResult.secure_url,
     });
 
@@ -80,7 +83,7 @@ exports.CreateMedicalReport = async (req, res) => {
       status: "success",
       message: "Medical report saved successfully",
       data: {
-        visa_number: userMedicalReport.visa_number,
+        passport_number: userMedicalReport.passport_number,
         medical_image: userMedicalReport.medical_image,
       },
     });
