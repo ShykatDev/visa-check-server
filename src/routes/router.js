@@ -3,6 +3,7 @@ const JobsController = require("../controllers/job.controller.js");
 const commonController = require("../controllers/common.controller.js");
 const MedicalReportsController = require("../controllers/medical_reports.controller.js");
 const VisaController = require("../controllers/visa.controller.js");
+const ComplainsController = require("../controllers/complains.controller.js");
 
 const router = express.Router();
 const authRoutes = require("./auth.js");
@@ -28,6 +29,7 @@ router.post(
   upload.single("profile_pic"),
   commonController.ApplyJob
 );
+router.post("/complain", ComplainsController.CreateComplain);
 
 //Auth routes
 router.use("/auth", authRoutes);
@@ -37,7 +39,6 @@ router.get("/medical_reports", MedicalReportsController.GetApplication);
 
 //Visa routes
 router.get("/visa", VisaController.GetVisa);
-
 
 //Private routes
 router.use("/we", we);

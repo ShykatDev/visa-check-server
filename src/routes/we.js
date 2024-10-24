@@ -6,6 +6,7 @@ const WeController = require("../controllers/we.controller.js");
 const JobController = require("../controllers/job.controller.js");
 const ApplicationController = require("../controllers/application.controller.js");
 const UserController = require("../controllers/user.controller.js");
+const ComplainsController = require("../controllers/complains.controller.js");
 
 const router = express.Router();
 
@@ -23,7 +24,10 @@ const upload = multer({ storage: storage });
 // Apply authMiddleware to all routes in this file
 router.use(authMiddleware);
 
-router.get("/", UserController.GetUser)
+router.get("/", UserController.GetUser);
+
+//Get Complains
+router.get("/complains", ComplainsController.GetComplain);
 
 // "/we/visa" route
 router.post("/visa", upload.single("visa_image"), WeController.CreateVisa);
