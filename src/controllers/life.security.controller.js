@@ -1,25 +1,21 @@
-const MedicalReportsModel = require("../models/complains.model.js");
+const LifeSecurityModel = require("../models/life.security.model.js");
 
-exports.CreateComplain = async (req, res) => {
+exports.CreateLifeSecurity = async (req, res) => {
   const {
-    passport_number,
-    phone_number,
-    body,
-    present_address,
     first_name,
     last_name,
-    subject,
+    passport_number,
+    phone_number,
+    present_address,
   } = req.body;
 
   //   Checking for empty values
   if (
     !passport_number ||
     !phone_number ||
-    !body ||
     !present_address ||
     !first_name ||
-    !last_name ||
-    !subject
+    !last_name
   ) {
     return res.status(400).json({
       status: "failed",
@@ -28,14 +24,12 @@ exports.CreateComplain = async (req, res) => {
   }
 
   try {
-    await MedicalReportsModel.create({
-      passport_number,
-      phone_number,
-      body,
-      present_address,
+    await LifeSecurityModel.create({
       first_name,
       last_name,
-      subject,
+      passport_number,
+      phone_number,
+      present_address,
     });
     return res.status(201).json({ status: "success" });
   } catch (err) {
@@ -43,12 +37,12 @@ exports.CreateComplain = async (req, res) => {
   }
 };
 
-exports.GetComplain = async (req, res) => {
+exports.GetLifeSecurity = async (req, res) => {
   try {
-    const results = await MedicalReportsModel.find();
+    const results = await LifeSecurityModel.find();
 
     let data = {
-      message: "Complains retrieved successfully",
+      message: "Life Security retrieved successfully",
       results,
     };
 
