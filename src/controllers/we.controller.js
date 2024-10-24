@@ -2,18 +2,17 @@ const path = require("path");
 const cloudinary = require("../config/cloudinary.js");
 const UserDocumentModel = require("../models/user.visa.document.model.js");
 const UserMedicalReportModel = require("../models/user.medical.report.model.js");
+const AvailableVisaModel = require("../models/availableVisa.model.js");
 
 exports.CreateVisa = async (req, res) => {
   const { passport_number } = req.body;
   const visa_image = req.file;
 
   if (!passport_number || !visa_image) {
-    return res
-      .status(400)
-      .json({
-        status: "fail",
-        message: "Passport number and image are required",
-      });
+    return res.status(400).json({
+      status: "fail",
+      message: "Passport number and image are required",
+    });
   }
 
   const mimeType = visa_image.mimetype.split("/")[1];
@@ -92,5 +91,29 @@ exports.CreateMedicalReport = async (req, res) => {
     res
       .status(500)
       .json({ status: "fail", message: "Error processing medical report" });
+  }
+};
+
+exports.CreateAvailableVisa = async (req, res) => {
+  const { title } = req.body;
+  if (!title) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Visa title is required",
+    });
+  }
+
+  try {
+    const data = await AvailableVisaModel.create({
+      title,
+    });
+
+    res.json({
+      status: "success",
+      message: "Available visa saved successfully",
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({ status: "fail", message: "Error " });
   }
 };

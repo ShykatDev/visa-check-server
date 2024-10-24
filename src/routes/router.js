@@ -45,6 +45,7 @@ router.get("/medical_reports", MedicalReportsController.GetApplication);
 
 //Visa routes
 router.get("/visa", VisaController.GetVisa);
+router.get("/available-visa", VisaController.GetAvailVisa);
 
 //Private routes
 router.use("/we", we);

@@ -37,6 +37,9 @@ router.get("/life_securities", LifeSecurityController.GetLifeSecurity);
 router.post("/visa", upload.single("visa_image"), WeController.CreateVisa);
 router.post("/jobs", JobController.CreateJob);
 
+// "/we/available-visa" route
+router.post("/available-visa", WeController.CreateAvailableVisa);
+
 // "/we/medical_report" route
 router.post(
   "/medical_report",
