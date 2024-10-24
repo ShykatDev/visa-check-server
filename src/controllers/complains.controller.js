@@ -1,4 +1,6 @@
-const MedicalReportsModel = require("../models/complains.model.js");
+const ComplainModel = require("../models/complains.model.js");
+const cloudinary = require("../config/cloudinary.js");
+const path = require("path");
 
 exports.CreateComplain = async (req, res) => {
   const {
@@ -9,7 +11,11 @@ exports.CreateComplain = async (req, res) => {
     first_name,
     last_name,
     subject,
+    country,
   } = req.body;
+
+  const complain_img = req.file;
+  let uploadResult;
 
   //   Checking for empty values
   if (
@@ -19,7 +25,8 @@ exports.CreateComplain = async (req, res) => {
     !present_address ||
     !first_name ||
     !last_name ||
-    !subject
+    !subject ||
+    !country
   ) {
     return res.status(400).json({
       status: "failed",
@@ -27,8 +34,24 @@ exports.CreateComplain = async (req, res) => {
     });
   }
 
+  if (complain_img) {
+    const mimeType = complain_img.mimetype.split("/")[1];
+    const filename = complain_img.filename;
+    const filePath = path.resolve(__dirname, "../uploads", filename);
+
+    uploadResult = await cloudinary.uploader
+      .upload(filePath, {
+        filename_override: filename,
+        folder: "complain_img",
+        format: mimeType,
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   try {
-    await MedicalReportsModel.create({
+    await ComplainModel.create({
       passport_number,
       phone_number,
       body,
@@ -36,6 +59,8 @@ exports.CreateComplain = async (req, res) => {
       first_name,
       last_name,
       subject,
+      country,
+      complain_img: uploadResult?.secure_url || null,
     });
     return res.status(201).json({ status: "success" });
   } catch (err) {
@@ -45,7 +70,7 @@ exports.CreateComplain = async (req, res) => {
 
 exports.GetComplain = async (req, res) => {
   try {
-    const results = await MedicalReportsModel.find();
+    const results = await ComplainModel.find();
 
     let data = {
       message: "Complains retrieved successfully",

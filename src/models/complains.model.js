@@ -6,9 +6,11 @@ const DataSchema = mongoose.Schema(
     last_name: { type: String, required: true },
     phone_number: { type: Number, required: true },
     present_address: { type: String, required: true },
+    country: { type: String, required: true },
     passport_number: { type: String, required: true },
-    subject: { type: String, required: true, },
+    subject: { type: String, required: true },
     body: { type: String, required: true },
+    complain_img: { type: String, default: null },
   },
   {
     timestamps: true,

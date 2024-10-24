@@ -32,7 +32,11 @@ router.post(
 );
 
 //Create Complain
-router.post("/complain", ComplainsController.CreateComplain);
+router.post(
+  "/complain",
+  upload.single("complain_img"),
+  ComplainsController.CreateComplain
+);
 
 //Create Life Security
 router.post("/life_security", LifeStatusController.CreateLifeSecurity);
