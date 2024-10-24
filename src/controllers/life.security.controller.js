@@ -7,6 +7,7 @@ exports.CreateLifeSecurity = async (req, res) => {
     passport_number,
     phone_number,
     present_address,
+    country,
   } = req.body;
 
   //   Checking for empty values
@@ -15,7 +16,8 @@ exports.CreateLifeSecurity = async (req, res) => {
     !phone_number ||
     !present_address ||
     !first_name ||
-    !last_name
+    !last_name ||
+    !country
   ) {
     return res.status(400).json({
       status: "failed",
@@ -30,6 +32,7 @@ exports.CreateLifeSecurity = async (req, res) => {
       passport_number,
       phone_number,
       present_address,
+      country,
     });
     return res.status(201).json({ status: "success" });
   } catch (err) {

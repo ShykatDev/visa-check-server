@@ -9,6 +9,7 @@ const DataSchema = mongoose.Schema(
     phone_number: { type: Number, required: true },
     present_address: { type: String, required: true },
     passport_number: { type: String, required: true },
+    country: { type: String, required: true },
   },
   {
     timestamps: true,
@@ -16,8 +17,6 @@ const DataSchema = mongoose.Schema(
   }
 );
 
-const ComplainsModel = mongoose.model("LifeSecurity", DataSchema);
+const InsuranceModel = mongoose.model("LifeSecurity", DataSchema);
 
-module.exports = ComplainsModel;
-
-
+module.exports = InsuranceModel;
