@@ -16,7 +16,7 @@ exports.GetJobs = async (req, res) => {
 };
 
 exports.CreateJob = async (req, res) => {
-  const { hiring_position, vacancy, description, title, is_new } = req.body;
+  const { hiring_position, vacancy, description, title, area } = req.body;
 
   //   Checking for empty values
   if (!title || !hiring_position || !vacancy || !description) {
@@ -32,7 +32,7 @@ exports.CreateJob = async (req, res) => {
       description,
       vacancy,
       hiring_position,
-      is_new,
+      area,
     });
     return res.status(201).json({ status: "success" });
   } catch (err) {
