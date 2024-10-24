@@ -14,7 +14,11 @@ const DataSchema = mongoose.Schema(
       default: null,
       ref: "Jobs",
     },
-    visa_id: { type: String, default: null },
+    visa_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+      ref: "avaiiablevisa",
+    },
   },
   {
     timestamps: true,

@@ -9,6 +9,10 @@ exports.GetApplication = async (req, res) => {
         path: "job_id",
         select: "title -_id",
       })
+      .populate({
+        path: "visa_id",
+        select: "title -_id",
+      })
       .exec();
 
     let data = {

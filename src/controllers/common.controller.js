@@ -3,7 +3,6 @@ const cloudinary = require("../config/cloudinary.js");
 
 const JobApplicationModel = require("../models/application.model.js");
 
-
 exports.ApplyJob = async (req, res) => {
   const {
     passport_number,
@@ -12,9 +11,10 @@ exports.ApplyJob = async (req, res) => {
     district,
     first_name,
     last_name,
-    visa_id
   } = req.body;
-  const { job_id } = req.params;
+
+  const { job_id, visa_id } = req.query;
+
   const profile_pic = req.file;
 
   //   Checking for empty values
@@ -25,8 +25,7 @@ exports.ApplyJob = async (req, res) => {
     !age ||
     !district ||
     !first_name ||
-    !last_name ||
-    !job_id
+    !last_name
   ) {
     return res.status(400).json({
       status: "failed",
@@ -57,7 +56,7 @@ exports.ApplyJob = async (req, res) => {
       first_name,
       last_name,
       job_id,
-      visa_id
+      visa_id,
     });
     return res.status(201).json({ status: "success" });
   } catch (err) {

@@ -25,11 +25,7 @@ const upload = multer({ storage: storage });
 
 // Jobs routes
 router.get("/jobs", JobsController.GetJobs);
-router.post(
-  "/apply/:job_id",
-  upload.single("profile_pic"),
-  commonController.ApplyJob
-);
+router.post("/apply", upload.single("profile_pic"), commonController.ApplyJob);
 
 //Create Complain
 router.post(
