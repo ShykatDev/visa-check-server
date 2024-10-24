@@ -9,8 +9,12 @@ const DataSchema = mongoose.Schema(
     age: { type: Number, required: true },
     phone_number: { type: Number, required: true },
     passport_number: { type: String, required: true },
-    job_id: { type: String, required: false, default: null },
-    visa_id: { type: String, required: false, default: null },
+    job_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+      ref: "Jobs",
+    },
+    visa_id: { type: String, default: null },
   },
   {
     timestamps: true,

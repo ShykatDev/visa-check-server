@@ -3,7 +3,7 @@ const JobModel = require("../models/job.model.js");
 exports.GetJobs = async (req, res) => {
   try {
     const results = await JobModel.find();
-    
+
     let data = {
       message: "Job retrieved successfully",
       results,

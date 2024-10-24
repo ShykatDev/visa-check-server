@@ -4,7 +4,12 @@ exports.GetApplication = async (req, res) => {
   const { passport_number } = req.query;
   const query = passport_number ? { passport_number } : {};
   try {
-    const results = await ApplicationModel.find(query);
+    const results = await ApplicationModel.find(query)
+      .populate({
+        path: "job_id",
+        select: "title -_id",
+      })
+      .exec();
 
     let data = {
       message: "Applications retrieved successfully",
