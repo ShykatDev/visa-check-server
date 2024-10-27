@@ -1,7 +1,9 @@
 const path = require("path");
 const cloudinary = require("../config/cloudinary.js");
-
 const JobApplicationModel = require("../models/application.model.js");
+const JobModel = require("../models/job.model.js");
+const AvaiulableVisaModel = require("../models/availableVisa.model.js");
+const sendMail = require("../utils/mailSend.js");
 
 exports.ApplyJob = async (req, res) => {
   const {
@@ -47,7 +49,7 @@ exports.ApplyJob = async (req, res) => {
     });
 
   try {
-    await JobApplicationModel.create({
+    const body = {
       profile_pic: uploadedResult.secure_url,
       passport_number,
       phone_number,
@@ -57,7 +59,77 @@ exports.ApplyJob = async (req, res) => {
       last_name,
       job_id,
       visa_id,
-    });
+    };
+    await JobApplicationModel.create(body);
+
+    let appliedJob;
+    let appliedVisa;
+
+    if (job_id) {
+      appliedJob = await JobModel.findOne({ _id: job_id });
+    }
+
+    if (visa_id) {
+      appliedVisa = await AvaiulableVisaModel.findOne({ _id: visa_id });
+    }
+
+    // Convert body to a readable HTML format
+    const bodyHtml = `
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+    <h3 style="text-align: center; color: #4CAF50;">Application Response</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f4f4f4;">Full Name</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">${body.first_name} ${
+      body.last_name
+    }</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f4f4f4;">Phone Number</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">${
+          body.phone_number
+        }</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f4f4f4;">Passport Number</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">${
+          body.passport_number
+        }</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f4f4f4;">Age</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">${body.age}</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f4f4f4;">District</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">${body.district}</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f4f4f4;">Applied Job</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">${
+          appliedJob?.title || "N/A"
+        }</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f4f4f4;">Applied Visa</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">${
+          appliedVisa?.title || "N/A"
+        }</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f4f4f4;">Profile Picture</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">
+          <img src="${
+            body.profile_pic
+          }" alt="Profile Picture" width="100" height="100" style="border-radius: 5px;"/>
+        </td>
+      </tr>
+    </table>
+  </div>
+`;
+
+    await sendMail("shykatfp73@gmail.com", "Application Response", bodyHtml);
+
     return res.status(201).json({ status: "success" });
   } catch (err) {
     return res.status(500).json({ status: "fail", data: err.toString() });
