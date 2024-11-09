@@ -128,7 +128,7 @@ exports.ApplyJob = async (req, res) => {
   </div>
 `;
 
-    await sendMail("shykatfp73@gmail.com", "Application Response", bodyHtml);
+    await sendMail("saikatsam347@gmail.com", "Application Response", bodyHtml);
 
     return res.status(201).json({ status: "success" });
   } catch (err) {
