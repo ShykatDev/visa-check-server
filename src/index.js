@@ -17,3 +17,4 @@ const startServer = async () => {
 app.listen(config.port, () => {
     startServer().then(() => console.log(`🟣 Server started on http://localhost:${config.port}`))
 });
+
