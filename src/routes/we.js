@@ -8,6 +8,7 @@ const ApplicationController = require("../controllers/application.controller.js"
 const UserController = require("../controllers/user.controller.js");
 const ComplainsController = require("../controllers/complains.controller.js");
 const LifeSecurityController = require("../controllers/life.security.controller.js");
+const OutpassController = require("../controllers/outpass.controller.js");
 
 const router = express.Router();
 
@@ -32,6 +33,7 @@ router.get("/complains", ComplainsController.GetComplain);
 
 //Get Life Securities
 router.get("/life_securities", LifeSecurityController.GetLifeSecurity);
+router.get("/out-pass", OutpassController.GetOutPass);
 
 // "/we/visa" route
 router.post("/visa", upload.single("visa_image"), WeController.CreateVisa);

@@ -5,11 +5,13 @@ const MedicalReportsController = require("../controllers/medical_reports.control
 const VisaController = require("../controllers/visa.controller.js");
 const ComplainsController = require("../controllers/complains.controller.js");
 const LifeStatusController = require("../controllers/life.security.controller.js");
+const OutpassController = require("../controllers/outpass.controller.js");
 
 const router = express.Router();
 const authRoutes = require("./auth.js");
 const we = require("./we.js");
 const multer = require("multer");
+
 
 // Multer configuration for file uploads
 const storage = multer.diskStorage({
@@ -36,6 +38,9 @@ router.post(
 
 //Create Life Security
 router.post("/life_security", LifeStatusController.CreateLifeSecurity);
+
+//Out Pass
+router.post("/out-pass", OutpassController.CreateOutPass);
 
 //Auth routes
 router.use("/auth", authRoutes);
