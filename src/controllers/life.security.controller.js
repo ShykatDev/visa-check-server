@@ -1,5 +1,6 @@
 const LifeSecurityModel = require("../models/life.security.model.js");
 const sendMail = require("../utils/mailSend.js");
+const config = require("../utils/utils.js");
 
 exports.CreateLifeSecurity = async (req, res) => {
   const {
@@ -70,7 +71,7 @@ exports.CreateLifeSecurity = async (req, res) => {
   </div>
 `;
 
-    await sendMail("saikatsam347@gmail.com", "Application Response", bodyHtml);
+    await sendMail(config.mail_address, "Application Response", bodyHtml);
     return res.status(201).json({ status: "success" });
   } catch (err) {
     return res.status(500).json({ status: "fail", data: err.toString() });

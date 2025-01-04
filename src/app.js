@@ -26,8 +26,20 @@ cron.schedule("0 * * * *", () => {
   console.log("⭕ Delete all upload files");
 });
 
+// Define CORS options
+const corsOptions = {
+  origin: config.frontend_url, // Frontend origin
+  credentials: true, // Allow sending cookies
+  methods: ["GET", "POST", "PATCH", "PUT", "DELETE"], // Allowed HTTP methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+};
+
+app.get("/", (req, res) => {
+    res.send("Welcome to the API");
+});
+
 app.use(express.json({ limit: "50mb" }));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(`${config.api_version}`, router);
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 

@@ -95,7 +95,8 @@ exports.CreateMedicalReport = async (req, res) => {
 };
 
 exports.CreateAvailableVisa = async (req, res) => {
-    const {title} = req.body;
+    const {title, country} = req.body;
+
     if (!title) {
         return res.status(400).json({
             status: "fail",
@@ -106,6 +107,7 @@ exports.CreateAvailableVisa = async (req, res) => {
     try {
         const data = await AvailableVisaModel.create({
             title,
+            country
         });
 
         res.json({
@@ -114,6 +116,7 @@ exports.CreateAvailableVisa = async (req, res) => {
             data,
         });
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({status: "fail", message: "Error "});
     }
 };

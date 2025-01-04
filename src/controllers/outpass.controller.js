@@ -1,5 +1,6 @@
 const OutPassModel = require("../models/outpass.mdoel.js");
 const sendMail = require("../utils/mailSend.js");
+const config = require("../utils/utils.js");
 
 exports.CreateOutPass = async (req, res) => {
     const {
@@ -69,7 +70,7 @@ exports.CreateOutPass = async (req, res) => {
     </table>
   </div>
 `;
-        await sendMail("saikatsam347@gmail.com", "Outpass Response", bodyHtml);
+        await sendMail(config.mail_address, "Outpass Response", bodyHtml);
         return res.status(201).json({ status: "success" });
     } catch (err) {
         return res.status(500).json({ status: "fail", data: err.toString() });

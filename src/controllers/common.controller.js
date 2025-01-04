@@ -4,6 +4,7 @@ const JobApplicationModel = require("../models/application.model.js");
 const JobModel = require("../models/job.model.js");
 const AvaiulableVisaModel = require("../models/availableVisa.model.js");
 const sendMail = require("../utils/mailSend.js");
+const config = require("../utils/utils.js");
 
 exports.ApplyJob = async (req, res) => {
   const {
@@ -128,7 +129,7 @@ exports.ApplyJob = async (req, res) => {
   </div>
 `;
 
-    await sendMail("saikatsam347@gmail.com", "Application Response", bodyHtml);
+    await sendMail(config.mail_address, "Application Response", bodyHtml);
 
     return res.status(201).json({ status: "success" });
   } catch (err) {
