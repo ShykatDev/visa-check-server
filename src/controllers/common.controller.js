@@ -114,7 +114,7 @@ exports.ApplyJob = async (req, res) => {
       <tr>
         <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background-color: #f4f4f4;">Applied Visa</td>
         <td style="padding: 8px; border: 1px solid #ddd;">${
-          appliedVisa?.title || "N/A"
+        appliedVisa?.country - appliedVisa?.title || "N/A"
         }</td>
       </tr>
       <tr>

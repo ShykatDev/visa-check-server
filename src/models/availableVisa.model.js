@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 const DataSchema = mongoose.Schema(
   {
         title: { type: String, required: true },
-        country:{   type:String, required: true, default: ""},
+        country:{ type:String, required: true, default: ""},
+        icon: { type:String, default: null},
+        description: {type: String, required: true}
   },
   {
     timestamps: true,

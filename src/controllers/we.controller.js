@@ -95,19 +95,40 @@ exports.CreateMedicalReport = async (req, res) => {
 };
 
 exports.CreateAvailableVisa = async (req, res) => {
-    const {title, country} = req.body;
+    const {title, country, description} = req.body;
+    const iconFile = req.file;
+    let uploadResult;
 
-    if (!title) {
+
+    if (!title || !country || !description) {
         return res.status(400).json({
             status: "fail",
-            message: "Visa title is required",
+            message: "Missing required fields",
         });
+    }
+
+    if(iconFile){
+        const mimeType = iconFile.mimetype.split("/")[1];
+        const filename = iconFile.filename;
+        const filePath = path.resolve(__dirname, "../uploads", filename);
+
+        uploadResult = await cloudinary.uploader
+            .upload(filePath, {
+                filename_override: filename,
+                folder: "available_visa",
+                format: mimeType,
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     try {
         const data = await AvailableVisaModel.create({
             title,
-            country
+            country,
+            description,
+            icon: uploadResult?.secure_url || null
         });
 
         res.json({

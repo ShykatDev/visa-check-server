@@ -11,7 +11,7 @@ exports.GetApplication = async (req, res) => {
       })
       .populate({
         path: "visa_id",
-        select: "title -_id",
+        select: "title country -_id",
       })
       .exec();
 
