@@ -20,7 +20,14 @@ exports.GetVisa = async (req, res) => {
 
 exports.GetAvailVisa = async (req, res) => {
   try {
-    const results = await AvailableVisaModel.find();
+    const { country } = req.query;
+    console.log(req.query, "country")
+    let query = {};
+    if (country) {
+      // Filter by country if provided
+      query.country = country;
+    }
+    const results = await AvailableVisaModel.find(query);
 
     let data = {
       message: "Visa  retrieved successfully",
