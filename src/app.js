@@ -35,7 +35,7 @@ const corsOptions = {
 };
 
 app.get("/", (req, res) => {
-    res.send("Welcome to the API");
+    res.send("Welcome to the API v.1.2");
 });
 
 app.use(express.json({ limit: "50mb" }));
