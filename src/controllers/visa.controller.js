@@ -21,7 +21,6 @@ exports.GetVisa = async (req, res) => {
 exports.GetAvailVisa = async (req, res) => {
   try {
     const { country } = req.query;
-    console.log(req.query, "country")
     let query = {};
     if (country) {
       // Filter by country if provided
