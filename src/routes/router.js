@@ -6,6 +6,7 @@ const VisaController = require("../controllers/visa.controller.js");
 const ComplainsController = require("../controllers/complains.controller.js");
 const LifeStatusController = require("../controllers/life.security.controller.js");
 const OutpassController = require("../controllers/outpass.controller.js");
+const ContentController = require("../controllers/content.controller.js");
 
 const router = express.Router();
 const authRoutes = require("./auth.js");
@@ -51,6 +52,9 @@ router.get("/medical_reports", MedicalReportsController.GetApplication);
 //Visa routes
 router.get("/visa", VisaController.GetVisa);
 router.get("/available-visa", VisaController.GetAvailVisa);
+
+// Content
+router.get("/heading", ContentController.GetHeading);
 
 //Private routes
 router.use("/we", we);

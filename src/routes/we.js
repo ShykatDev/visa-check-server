@@ -9,6 +9,7 @@ const UserController = require("../controllers/user.controller.js");
 const ComplainsController = require("../controllers/complains.controller.js");
 const LifeSecurityController = require("../controllers/life.security.controller.js");
 const OutpassController = require("../controllers/outpass.controller.js");
+const ContentController = require("../controllers/content.controller.js")
 
 const router = express.Router();
 
@@ -51,5 +52,8 @@ router.post(
 
 //Applications route
 router.get("/applications", ApplicationController.GetApplication);
+
+router.post("/heading", ContentController.CreateHeading);
+router.patch("/heading/:id", ContentController.EditHeading);
 
 module.exports = router;
