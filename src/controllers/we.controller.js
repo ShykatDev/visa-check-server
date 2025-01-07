@@ -157,17 +157,8 @@ exports.CreateAvailableVisa = async (req, res) => {
 };
 
 exports.UpdateAvailableVisa = async (req, res)=> {
-    const {title, country, description, is_publish} = req.body;
+    const {is_publish} = req.body;
     const {id} = req.params;
-    const iconFile = req.file;
-    let uploadResult;
-
-    if (!title || !country || !description) {
-        return res.status(400).json({
-            status: "fail",
-            message: "Missing required fields",
-        });
-    }
 
     // Find actual project
     let matchData;
@@ -180,35 +171,14 @@ exports.UpdateAvailableVisa = async (req, res)=> {
     }
 
     if(matchData){
-        if(iconFile){
-            const mimeType = iconFile.mimetype.split("/")[1];
-            const filename = iconFile.filename;
-            const filePath = path.resolve(__dirname, "../uploads", filename);
-
-            uploadResult = await cloudinary.uploader
-                .upload(filePath, {
-                    filename_override: filename,
-                    folder: "available_visa",
-                    format: mimeType,
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
-
         try {
             const data = await AvailableVisaModel.findOneAndUpdate({_id: id},{
-                title,
-                country,
-                description,
                 is_publish,
-                icon: uploadResult?.secure_url || null
             });
 
             res.json({
                 status: "success",
                 message: "Available visa update successfully",
-                data,
             });
         } catch (error) {
             console.log(error.message)

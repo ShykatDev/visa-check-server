@@ -30,6 +30,9 @@ const upload = multer({ storage: storage });
 router.get("/jobs", JobsController.GetJobs);
 router.post("/apply", upload.single("profile_pic"), commonController.ApplyJob);
 
+// Loan routes
+router.post("/loan", upload.single("profile_pic"), commonController.ApplyLoan);
+
 //Create Complain
 router.post(
   "/complain",

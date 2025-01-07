@@ -54,6 +54,7 @@ router.post(
 
 //Applications route
 router.get("/applications", ApplicationController.GetApplication);
+router.get("/loan", ApplicationController.GetLoanApplications);
 
 router.post("/heading", ContentController.CreateHeading);
 router.patch("/heading/:id", ContentController.EditHeading);

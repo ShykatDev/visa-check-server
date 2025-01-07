@@ -1,4 +1,5 @@
 const ApplicationModel = require("../models/application.model.js");
+const LoanModel = require("../models/loanApplication.model.js");
 
 exports.GetApplication = async (req, res) => {
   const { passport_number } = req.query;
@@ -25,3 +26,17 @@ exports.GetApplication = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.GetLoanApplications = async (req, res) => {
+  try{
+    const results = await LoanModel.find();
+    let data = {
+      message: "Applications retrieved successfully",
+      results,
+    };
+    return res.status(200).json({ status: "success", data });
+  }
+  catch (err) {
+    return res.status(500).json({message: err.message});
+  }
+}
