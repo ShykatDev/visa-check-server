@@ -28,7 +28,13 @@ cron.schedule("0 * * * *", () => {
 
 // Define CORS options
 const corsOptions = {
-  origin: config.frontend_url, // Frontend origin
+  origin: function (origin, callback) {
+  if (config.whitelist_urls.indexOf(origin) !== -1) {
+    callback(null, true)
+  } else {
+    callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true, // Allow sending cookies
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE"], // Allowed HTTP methods
   allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
