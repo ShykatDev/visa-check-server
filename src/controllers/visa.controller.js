@@ -21,9 +21,10 @@ exports.GetVisa = async (req, res) => {
 exports.GetAvailVisa = async (req, res) => {
   try {
     const { country } = req.query;
-    let query = {};
+    let query = {
+      is_publish: true
+    };
     if (country) {
-      // Filter by country if provided
       query.country = country;
     }
     const results = await AvailableVisaModel.find(query);

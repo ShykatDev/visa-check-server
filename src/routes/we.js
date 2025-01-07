@@ -41,7 +41,9 @@ router.post("/visa", upload.single("visa_image"), WeController.CreateVisa);
 router.post("/jobs", JobController.CreateJob);
 
 // "/we/available-visa" route
+router.get("/available-visa", WeController.GetAvailableVisa)
 router.post("/available-visa",upload.single("icon"), WeController.CreateAvailableVisa);
+router.patch("/available-visa/:id",upload.single("icon"), WeController.UpdateAvailableVisa);
 
 // "/we/medical_report" route
 router.post(
