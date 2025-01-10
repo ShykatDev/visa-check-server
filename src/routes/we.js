@@ -10,6 +10,7 @@ const ComplainsController = require("../controllers/complains.controller.js");
 const LifeSecurityController = require("../controllers/life.security.controller.js");
 const OutpassController = require("../controllers/outpass.controller.js");
 const ContentController = require("../controllers/content.controller.js")
+const PublicVideosController = require("../controllers/publicVideos.controller.js");
 
 const router = express.Router();
 
@@ -52,11 +53,17 @@ router.post(
   WeController.CreateMedicalReport
 );
 
-//Applications route
+// Applications route
 router.get("/applications", ApplicationController.GetApplication);
 router.get("/loan", ApplicationController.GetLoanApplications);
 
+// Contents
 router.post("/heading", ContentController.CreateHeading);
 router.patch("/heading/:id", ContentController.EditHeading);
+
+// Public Videos
+router.get("/videos", PublicVideosController.GetVideos);
+router.post("/videos", PublicVideosController.AddVideos);
+router.delete("/videos/:id", PublicVideosController.DeleteVideo);
 
 module.exports = router;

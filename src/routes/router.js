@@ -7,6 +7,7 @@ const ComplainsController = require("../controllers/complains.controller.js");
 const LifeStatusController = require("../controllers/life.security.controller.js");
 const OutpassController = require("../controllers/outpass.controller.js");
 const ContentController = require("../controllers/content.controller.js");
+const PublicVideoController = require("../controllers/publicVideos.controller.js");
 
 const router = express.Router();
 const authRoutes = require("./auth.js");
@@ -58,6 +59,9 @@ router.get("/available-visa", VisaController.GetAvailVisa);
 
 // Content
 router.get("/heading", ContentController.GetHeading);
+
+// Videos
+router.get("/videos", PublicVideoController.GetVideos);
 
 //Private routes
 router.use("/we", we);
