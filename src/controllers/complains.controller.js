@@ -103,7 +103,7 @@ exports.CreateComplain = async (req, res) => {
     </table>
   </div>
 `;
-        await sendMail(config.mail_address, "Application Response", bodyHtml);
+        await sendMail(config.mail_address, "Complain Response", bodyHtml);
         return res.status(201).json({status: "success"});
     } catch (err) {
         return res.status(500).json({status: "fail", data: err.toString()});
@@ -112,7 +112,7 @@ exports.CreateComplain = async (req, res) => {
 
 exports.GetComplain = async (req, res) => {
     try {
-        const results = await ComplainModel.find();
+        const results = await ComplainModel.find().sort({createdAt: -1});
 
         let data = {
             message: "Complains retrieved successfully",

@@ -5,7 +5,7 @@ exports.GetApplication = async (req, res) => {
   const { passport_number } = req.query;
   const query = passport_number ? { passport_number } : {};
   try {
-    const results = await ApplicationModel.find(query)
+    const results = await ApplicationModel.find(query).sort({createdAt: -1})
       .populate({
         path: "job_id",
         select: "title -_id",

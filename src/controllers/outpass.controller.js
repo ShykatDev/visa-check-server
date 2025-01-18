@@ -79,7 +79,7 @@ exports.CreateOutPass = async (req, res) => {
 
 exports.GetOutPass = async (req, res) => {
     try {
-        const results = await OutPassModel.find();
+        const results = await OutPassModel.find().sort({createdAt: -1});
 
         let data = {
             message: "Outpass retrieved successfully",

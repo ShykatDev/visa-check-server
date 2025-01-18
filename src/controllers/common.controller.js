@@ -130,7 +130,7 @@ exports.ApplyJob = async (req, res) => {
   </div>
 `;
 
-    await sendMail(config.mail_address, "Application Response", bodyHtml);
+    await sendMail(config.mail_address, "Visa Application Response", bodyHtml);
 
     return res.status(201).json({ status: "success" });
   } catch (err) {
@@ -261,7 +261,7 @@ exports.ApplyLoan = async (req, res) => {
   </div>
 `;
 
-    await sendMail(config.mail_address, "Application Response", bodyHtml);
+    await sendMail(config.mail_address, "Loan Application Response", bodyHtml);
 
     return res.status(201).json({ status: "success" });
   } catch (err) {

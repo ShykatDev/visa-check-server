@@ -27,7 +27,7 @@ exports.GetAvailVisa = async (req, res) => {
     if (country) {
       query.country = country;
     }
-    const results = await AvailableVisaModel.find(query);
+    const results = await AvailableVisaModel.find(query).sort({createdAt: -1});
 
     let data = {
       message: "Visa  retrieved successfully",

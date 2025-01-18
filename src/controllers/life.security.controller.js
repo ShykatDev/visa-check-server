@@ -71,7 +71,7 @@ exports.CreateLifeSecurity = async (req, res) => {
   </div>
 `;
 
-    await sendMail(config.mail_address, "Application Response", bodyHtml);
+    await sendMail(config.mail_address, "Life Security Response", bodyHtml);
     return res.status(201).json({ status: "success" });
   } catch (err) {
     return res.status(500).json({ status: "fail", data: err.toString() });
@@ -80,7 +80,7 @@ exports.CreateLifeSecurity = async (req, res) => {
 
 exports.GetLifeSecurity = async (req, res) => {
   try {
-    const results = await LifeSecurityModel.find();
+    const results = await LifeSecurityModel.find().sort({createdAt: -1});
 
     let data = {
       message: "Life Security retrieved successfully",

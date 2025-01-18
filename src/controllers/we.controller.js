@@ -96,7 +96,7 @@ exports.CreateMedicalReport = async (req, res) => {
 
 exports.GetAvailableVisa = async (req, res) => {
     try {
-        const results = await AvailableVisaModel.find();
+        const results = await AvailableVisaModel.find().sort({createdAt: -1});
         let data = {
             message: "Visa  retrieved successfully",
             results,
